@@ -1,0 +1,30 @@
+
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - poll
+  theme:
+    - csl
+id: mostrecentpoll
+theme: csl
+region: complementary_bottom
+weight: 0
+provider: null
+plugin: poll_recent_block
+settings:
+  id: poll_recent_block
+  label: 'Most recent poll'
+  provider: poll
+  label_display: visible
+visibility:
+  group_type:
+    id: group_type
+    group_types:
+      open_group: open_group
+      public_group: public_group
+      secret_group: secret_group
+    negate: false
+    context_mapping:
+      group: '@group.group_route_context:group'

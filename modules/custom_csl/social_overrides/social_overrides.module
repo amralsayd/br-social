@@ -1,0 +1,133 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Url;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_social_user_account_header_create_links()
+ */
+function social_overrides_social_user_account_header_create_links($context) {
+  return [
+    'add_presentation' => [
+      '#type' => 'link',
+      '#attributes' => [
+        'title' => new TranslatableMarkup('Create Presentation'),
+      ],
+      '#title' => new TranslatableMarkup('New Presentation'),
+      '#weight' => 500,
+    ] + Url::fromRoute('node.add', ['node_type' => 'presentation'])->toRenderArray(),
+  ];
+}
+
+/**
+ * Implements hook_social_user_account_header_create_links()
+ */
+function social_overrides_social_user_account_header_create_links_alter(array &$links, array $context) {
+  // Move the "Create New Page" link to the top if it's defined.
+  if (isset($links['add_page'])) {
+    $links['add_page']['#access'] = FALSE;
+  }
+
+  if (isset($links['add_landing_page'])) {
+    $links['add_landing_page']['#access'] = FALSE;
+  }
+
+  if (isset($links['add_topic'])) {
+    $links['add_topic']['#title'] = t('New News');
+  }
+}
+
+/**
+ * Sets dynamic allowed values for the group type icon field.
+ */
+function social_overrides_group_type_allowed_values_function(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
+  $theme_path = drupal_get_path('theme', 'socialbase');
+  $icon_files = \Drupal::service('file_system')->scanDirectory(DRUPAL_ROOT . '/' . $theme_path . '/components/06-libraries/icons/source', '/^icon-.*\.svg$/', ['recurse' => FALSE]);
+
+  $options = [];
+  foreach ($icon_files as $file) {
+    $options[$file->name] = $file->name;
+  }
+
+  return $options;
+}
+
+/**
+ * Hide settings as it's not needed in group creation page and it has a default value of stream.
+ */
+
+/**
+ * Function social_overrides_form_node_poll_content_form_alter(&$form, FormStateInterface $form_state, $form_id)
+ * {
+ * if ($group = \Drupal::routeMatch()->getParameter('group')) {
+ * $form['groups']['widget']['#default_value'] = [$group->id()];
+ * $form['groups']['widget']["#access"] = FALSE;
+ * }
+ * }.
+ * Resend invitation for exiting invitations.
+ */
+function social_overrides_form_social_bulk_group_invitation_alter(&$form, FormStateInterface $form_state) {
+  foreach (array_keys($form['actions']) as $action) {
+    if ($action == 'submit' && isset($form['actions'][$action]['#type']) && $form['actions'][$action]['#type'] === 'submit') {
+      $form['actions'][$action]["#submit"] = ['resendInvitation'];
+      // var_dump($form['actions'][$action]["#submit"]);.
+    }
+  }
+}
+
+/**
+ *
+ */
+function resendInvitation(&$form, &$form_state) {
+  $group = \Drupal::routeMatch()->getParameter('group');
+  $entityTypeManager = \Drupal::service('entity_type.manager');
+  $group_content_storage = $entityTypeManager->getStorage('group_content');
+  $groupMembershipLoader = \Drupal::service('group.membership_loader');
+  // Check if invitation exists first and not memeber of the group
+  // for exisiting user and not registered user.
+  $values = $form['users_fieldset']['user']["#value"];
+  if (!empty($values)) {
+    foreach ($values as $key => $email_id) {
+      if (is_numeric($email_id)) {
+        // Get user email and check if he has invitation for that group or not and if exists load it.
+        $account = User::load($email_id);
+        $email = $account->getEmail();
+        $membership = $groupMembershipLoader->load($group, $account);
+        $group_content = $group_content_storage->loadByGroup($group, 'group_invitation', ['invitee_mail' => $email]);
+        if (empty($membership) &&  !empty($group_content)) {
+          // Resend.
+          ginvite_group_content_insert(reset($group_content));
+        }
+      }
+      elseif (strpos($email_id, "\$ID:") !== FALSE) {
+        $email = substr($email_id, 4);
+        $group_content = $group_content_storage->loadByGroup($group, 'group_invitation', ['invitee_mail' => $email]);
+        if (!empty($group_content)) {
+          // Resend.
+          ginvite_group_content_insert(reset($group_content));
+        }
+      }
+    }
+  }
+}
+
+// social-post-entity-form post-form contextual-region card card--stream social-post-album--form card__block
+// function social_overrides_block_access(\Drupal\block\Entity\Block $block, $operation, \Drupal\Core\Session\AccountInterface $account)
+// {
+//   if ($operation == "view" && $block->getPluginId() === "system_menu_block:footer") {
+//     return AccessResult::allowed();
+//     // return AccessResult::forbidden();
+//     // var_dump($block->getPluginId());
+//     // exit();
+//     // system_menu_block:footer
+//     // 'system_menu_block:footer-right'
+//   }
+// }.

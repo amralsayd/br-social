@@ -1,0 +1,22 @@
+<div class="row">
+<div class="col-6">
+   <p><img src="https://sod.orevan.net/wp-content/uploads/2018/09/image2.png" /> </p>
+</div>
+<div class="col-6">
+
+<p><h1>Why Science on demand?</h1>
+
+<ul>
+	<li>
+	<p>Bring the entire medical team together to securely share your content.</p>
+	</li>
+	<li>
+	<p>Get answers to questions from across your Team.</p>
+	</li>
+	<li>
+	<p>Share Videos, Images, files, surveys and links.</p>
+	</li>
+	<li>Creat Team groups and invite anyone.</li>
+</ul></p>
+</div>
+</div>

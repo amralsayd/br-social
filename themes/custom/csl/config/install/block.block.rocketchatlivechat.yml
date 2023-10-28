@@ -1,0 +1,20 @@
+
+langcode: en
+status: true
+dependencies:
+  module:
+    - livechat
+  theme:
+    - csl
+id: rocketchatlivechat
+theme: csl
+region: footer
+weight: 0
+provider: null
+plugin: LiveChatBlock
+settings:
+  id: LiveChatBlock
+  label: Livechat
+  provider: livechat
+  label_display: '0'
+visibility: {  }

@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * The primary PHP file for the Social Blue theme.
+ */
+
+/**
+ * Implements theme_preprocess().
+ */
+
+function csl_preprocess_node__disease__full(&$variables)
+{
+    $subDiseases = $variables['node']->get('field_sub_types')->referencedEntities();
+    if (!empty($subDiseases)) {
+        $variables['childs'] = $subDiseases;
+    }
+}

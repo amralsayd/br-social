@@ -1,0 +1,29 @@
+
+langcode: en
+status: true
+dependencies:
+  module:
+    - social_footer
+  theme:
+    - csl
+_core:
+  default_config_hash: BKYQQdJObLnwcAJCqqvHBV56DM_ofTiaLudz46XM4HA
+id: csl_footer_powered
+theme: csl
+region: footer
+weight: -28
+provider: null
+plugin: social_footer_powered_by_block
+settings:
+  id: social_footer_powered_by_block
+  label: 'Powered by'
+  provider: social_footer
+  label_display: '0'
+  logo: '61'
+  text:
+    value: "\r\n<p>CSL Behring l MEA Digital Community Platform </p>\r\n"
+    format: basic_html
+  link:
+    url: 'https://www.cslbehring.com/'
+    title: 'CSL Behring MEA l Digital Community Platform'
+visibility: {  }

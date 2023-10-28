@@ -1,0 +1,7 @@
+custom_ksu.correct.config.form:
+  path: '/admin/correct-config'
+  defaults:
+    _form: '\Drupal\custom_ksu\Form\correct_configForm'
+    _title: 'Correct Config'
+  requirements:
+    _permission: 'Correct site Configuration'

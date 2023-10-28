@@ -1,0 +1,25 @@
+
+langcode: en
+status: false
+dependencies:
+  content:
+    - 'block_content:basic:c01e754f-67f4-43d2-b05e-fd43750797b6'
+  module:
+    - block_content
+  theme:
+    - csl
+id: chat
+theme: csl
+region: header
+weight: -30
+provider: null
+plugin: 'block_content:c01e754f-67f4-43d2-b05e-fd43750797b6'
+settings:
+  id: 'block_content:c01e754f-67f4-43d2-b05e-fd43750797b6'
+  label: chat
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

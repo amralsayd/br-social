@@ -1,0 +1,7 @@
+name: 'ksu website Custom Module'
+type: module
+description: 'ksu Custom Module.'
+core_version_requirement: ^8.9 || ^9
+package: 'custom'
+libraries:
+  - custom_ksu/global_ksu

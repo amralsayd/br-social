@@ -1,0 +1,8 @@
+custom_ksu.correct.config.form:
+  title: 'Correct Config'
+  description: 'Page for Correct site configurations'
+  route_name: 'custom_ksu.correct.config.form'
+  weight: 11
+  parent: system.admin_config_development
+
+
