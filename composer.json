@@ -49,6 +49,12 @@
         ]
     },
     "extra": {
+        "patches": {
+            "drupal/core": {
+                "add svg and path tags to xss filter": "patches/add-svg-path-core.patch",
+                "fix add nested array": "fix-field-widget-base.patch"
+            }
+        },
         "installer-types": [
             "bower-asset",
             "npm-asset"

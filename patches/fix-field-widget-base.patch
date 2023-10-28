@@ -1,0 +1,13 @@
+diff --git a/core/lib/Drupal/Core/Field/WidgetBase.php b/core/lib/Drupal/Core/Field/WidgetBase.php
+index a5549e6..0e84222 100644
+--- a/core/lib/Drupal/Core/Field/WidgetBase.php
++++ b/core/lib/Drupal/Core/Field/WidgetBase.php
+@@ -421,7 +421,7 @@ public function flagErrors(FieldItemListInterface $items, ConstraintViolationLis
+ 
+     $field_state = static::getWidgetState($form['#parents'], $field_name, $form_state);
+ 
+-    if ($violations->count()) {
++    if ($violations->count() && !empty($field_state['array_parents'])) {
+       // Locate the correct element in the form.
+       $element = NestedArray::getValue($form_state->getCompleteForm(), $field_state['array_parents']);
+ 
