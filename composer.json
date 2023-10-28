@@ -7,7 +7,7 @@
     "prefer-stable": true,
     "require": {
         "goalgorilla/open_social": "~11.8.2",
-        "php": "^8.2",
+        "php": "^8.1",
         "monolog/monolog": "^2.3.5",
         "drupal/ultimate_cron": "^2.0@alpha",
         "drupal/poll": "^1.6",
